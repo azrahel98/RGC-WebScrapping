@@ -1,0 +1,29 @@
+post https://admin.rankedgaming.com/accounts/game-logs.php?action=login
+Content-Type: application/json
+
+{
+    "user":"****",
+    "pass":"*****"
+}
+
+###
+get https://board.rankedgaming.com/applications/core/interface/ipsconnect/ipsconnect.php?do=crosslogin&key=6bbd85c58dba432853de276f2ec7e0cc&url=https%3A%2F%2Fboard.rankedgaming.com%2Fapplications%2Fcore%2Finterface%2Fipsconnect%2Fipsconnect.php&id=359678&returnTo=https%3A%2F%2Fshop.rankedgaming.com%2Fapi%2Fuser%2Fcross_login%3Fauth%3D%252Aalahi%26key%3D4aef1721f58d5fc4e8c4e889799134e8%26intent%3Dhttps%253A%252F%252Fadmin.rankedgaming.com%252Faccounts%252Fgame-logs.php%253Faction%253Dlogin
+
+
+
+
+
+
+
+###
+post https://admin.rankedgaming.com/accounts/game-logs.php?action=recover
+Content-Type: application/json
+
+{
+    "user":"***",
+    "pass":"********"
+}
+
+###
+GET https://admin.rankedgaming.com/accounts/game-logs.php?action=login HTTP/1.1
+Content-Type: application/x-www-form-urlencoded

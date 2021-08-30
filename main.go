@@ -11,8 +11,8 @@ import (
 func main() {
 
 	data := url.Values{
-		"user": {"*alahi"},
-		"pass": {"pleyades"},
+		"user": {"****"},
+		"pass": {"***"},
 	}
 	jar, _ := cookiejar.New(nil)
 
@@ -21,6 +21,7 @@ func main() {
 	c := &http.Client{
 		Transport: nil,
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			log.Println("_______________________")
 			var cookies []*http.Cookie
 			for _, d := range req.Response.Cookies() {
 				switch d.Name {
@@ -75,7 +76,10 @@ func main() {
 		log.Println(err)
 	}
 	defer resp.Body.Close()
-	log.Println(Lcookies)
+	log.Println(resp.Status)
+	if len(Lcookies) == 0 {
+		log.Println("no paso nada aqui esto es una mierda")
+	}
 	url, _ := url.Parse("https://admin.rankedgaming.com/accounts/game-logs.php")
 	c.Jar.SetCookies(url, Lcookies)
 	req, err := http.NewRequest("POST", "https://admin.rankedgaming.com/accounts/game-logs.php", nil)
@@ -86,7 +90,11 @@ func main() {
 	if err != nil {
 		log.Println("error en el segundo post x2")
 	}
-	body, _ := ioutil.ReadAll(res.Body)
+	_, err = ioutil.ReadAll(res.Body)
 
-	log.Println(string(body))
+	if err != nil {
+		log.Println("Error aqui")
+	}
+	log.Println(res.Header)
+	//log.Println(string(body))
 }

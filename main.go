@@ -1,17 +1,18 @@
 package main
 
 import (
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
 func main() {
 
 	data := url.Values{
-		"user": {"****"},
+		"user": {"***"},
 		"pass": {"***"},
 	}
 	jar, _ := cookiejar.New(nil)
@@ -21,7 +22,6 @@ func main() {
 	c := &http.Client{
 		Transport: nil,
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
-			log.Println("_______________________")
 			var cookies []*http.Cookie
 			for _, d := range req.Response.Cookies() {
 				switch d.Name {
@@ -87,14 +87,38 @@ func main() {
 		log.Println("Error en el segundo post")
 	}
 	res, err := c.Do(req)
+
 	if err != nil {
 		log.Println("error en el segundo post x2")
 	}
-	_, err = ioutil.ReadAll(res.Body)
+	defer res.Body.Close()
+	// xd, err := ioutil.ReadAll(res.Body)
 
+	// if err != nil {
+	// 	log.Println("Error aqui")
+	// }
+	doc, err := goquery.NewDocumentFromReader(res.Body)
 	if err != nil {
-		log.Println("Error aqui")
+		log.Println(err)
 	}
-	log.Println(res.Header)
-	//log.Println(string(body))
+
+	doc.Find("body").Each(func(i int, s *goquery.Selection) {
+		s.Find("div.wrapper section > div > div.row.m-t-lg > div > div > div > div > div > div > div > table > tbody ").Each(func(i int, s *goquery.Selection) {
+			s.Find("tr").Each(func(i int, s *goquery.Selection) {
+				// desde aqui es el detaller
+				s.Find("td").Each(func(i int, s *goquery.Selection) {
+					s.Find("div").Each(func(i int, s *goquery.Selection) {
+						text, _ := s.Attr("title")
+						log.Println(text)
+					})
+					log.Println(s.Text())
+				})
+				log.Println("\n \n Siguiente Game")
+
+			})
+		})
+	})
+
+	//log.Println(string(xd))
+
 }
